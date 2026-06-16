@@ -1,24 +1,27 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Card from './components/Card';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <Hero />
+      <div className="container my-5">
+        <div className="d-flex flex-wrap gap-4">
+          <Card
+            title="Hotel Review"
+            description="Great location, friendly staff."
+            image="/hotel.png"
+            action={{ label: "Read More", onClick: () => console.log("clicked") }}
+          />
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 }
 
