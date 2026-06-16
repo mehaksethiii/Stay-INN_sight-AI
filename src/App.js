@@ -1,27 +1,25 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Card from './components/Card';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import About from './pages/About';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
-      <Hero />
-      <div className="container my-5">
-        <div className="d-flex flex-wrap gap-4">
-          <Card
-            title="Hotel Review"
-            description="Great location, friendly staff."
-            image="/hotel.png"
-            action={{ label: "Read More", onClick: () => console.log("clicked") }}
-          />
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 
