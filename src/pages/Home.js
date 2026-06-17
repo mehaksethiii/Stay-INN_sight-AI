@@ -15,6 +15,18 @@ function Home() {
             image="/hotel.png"
             action={{ label: "Read More", onClick: () => console.log("clicked") }}
           />
+          <Card
+            title="Guest Experience"
+            description="Comfortable rooms and excellent service."
+            image="/hotel.png"
+            action={{ label: "Read More", onClick: () => console.log("clicked") }}
+          />
+          <Card
+            title="Dining Review"
+            description="Amazing breakfast and rooftop dining experience."
+            image="/hotel.png"
+            action={{ label: "Read More", onClick: () => console.log("clicked") }}
+          />
         </div>
       </div>
     </>
