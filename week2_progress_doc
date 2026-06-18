@@ -1,0 +1,22 @@
+Weekly Progress Report — Week 2 
+Name: Mehak Sethi 
+Intern ID: TBI-26101076 
+Project: INN Sight AI — Guest Review Classifier System Week: Week 2
+
+What I worked on this week:
+
+This week I started building the frontend of my project from scratch. I set up a React app and used Bootstrap to style the components. After going throught the resources,my main focus was creating the four core components — Navbar, Hero, Card, and Footer — and putting them in a components folder so the code stays organized.
+
+The Navbar has the app name on the left and four navigation links. The Hero section shows the main heading, a short tagline, two buttons, and an image. The Card component is reusable — it takes a title, description, image, and a button, and I used it three times on the Home page to show different hotel reviews. The Footer has quick links, space for social media placeholders(to be added), and a copyright line at the bottom.
+
+I also added routing with React Router so the app has four pages — Home, About, Dashboard, and Login. Each page shows the Navbar and Footer, with some placeholder text in the middle.
+
+The app runs fine locally and looks decent on both desktop and mobile. I also uploaded the screenshots of both desktop and mobile application.
+
+What was challenging:
+
+Beginning with React was atough job since this is my first React project. Firstly, I learned the concepts of React and then  I performed the implementation part. Trying out a new technology is tiring at first yet it brings the best results. This was the challenging part of the week,
+
+What's next:
+
+Next week I want to improve the UI and start connecting things to real data. I also plan to begin working on the backend part that includes review classification part of the project. Firstly, I plan to use NLP Natural Language Processing or basic words, that act as classifiers for reviews. Then I plan to use better methods for proper classification.
