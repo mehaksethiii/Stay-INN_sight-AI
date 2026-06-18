@@ -18,13 +18,13 @@ function Home() {
           <Card
             title="Guest Experience"
             description="Comfortable rooms and excellent service."
-            image="/hotel.png"
+            image="/guestexperience.png"
             action={{ label: "Read More", onClick: () => console.log("clicked") }}
           />
           <Card
             title="Dining Review"
             description="Amazing breakfast and rooftop dining experience."
-            image="/hotel.png"
+            image="/diningreview.png"
             action={{ label: "Read More", onClick: () => console.log("clicked") }}
           />
         </div>

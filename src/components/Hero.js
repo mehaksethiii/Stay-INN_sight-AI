@@ -10,7 +10,7 @@ function Hero() {
         <a href="#get-started" className="btn btn-primary btn-lg me-2">Get Started</a>
         <a href="#learn-more" className="btn btn-outline-secondary btn-lg">Learn More</a>
         <div className="mt-4">
-          <img src="/image2.png" alt="INN Sight AI" style={{ width: '200px', height: 'auto' }} />
+          <img src="/image_2.png" alt="INN Sight AI" style={{ width: '200px', height: 'auto' }} />
         </div>
       </div>
     </section>
