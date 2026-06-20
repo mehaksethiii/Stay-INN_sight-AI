@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react';
 
+/**
+ * Modal component
+ * @param {boolean} isOpen - whether modal is visible
+ * @param {function} onClose - function to close the modal
+ * @param {string} title - modal heading
+ * @param {React.ReactNode} children - modal body content
+ */
+
 function Modal({ isOpen, onClose, title, children }) {
 
   // close modal when Escape key is pressed

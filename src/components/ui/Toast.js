@@ -1,4 +1,11 @@
 import React, { useEffect } from 'react';
+
+/**
+ * Toast component
+ * @param {string} message - notification text to display
+ * @param {string} type - 'success' | 'error' | 'warning' | 'info'
+ * @param {function} onClose - function called when toast closes
+ */
 /*Toast is a small notification popup that appears at the 
 bottom-right of the screen and disappears automatically 
 after 3 seconds. 

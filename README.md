@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# INN Sight AI — Guest Review Classifier System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An intelligent review classifier system which is capable of classifying customer reviews into three categories: positive, negative, and neutral. The system automatically identifies guest satisfaction level, detects recurring complaints, keeps track of customer visits, and generates actionable recommendations for homestay management.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Week 2 — Frontend Skeleton
 
-### `npm start`
+Built the full frontend skeleton of the app using React and Bootstrap.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Home page with Navbar, Hero section, 3 Cards in a grid, and Footer
+- 3 additional page routes: About, Dashboard, Login — each with Navbar, Footer, and placeholder content
+- All 4 core components (Navbar, Hero, Card, Footer) are in the `/components` folder
+- Routing set up using React Router DOM
+- Layout is responsive across mobile and desktop
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Week 3 — UI/UX & Component Library
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Built a reusable component library and added dark/light mode toggle.
 
-### `npm run build`
+### Component Library — `/components/ui/`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5 reusable UI components built with Bootstrap:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Button** — supports variant (primary, secondary, outline), size (sm, md, lg), disabled state
+- **Input** — supports label, placeholder, type, value, onChange, and error display
+- **Modal** — supports isOpen, onClose, title, and children; closes on Escape key
+- **Toast** — notification that appears briefly and auto-dismisses after 3 seconds
+- **Loader** — spinner component to show during data fetching
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+All components are exported from a single `index.js` file for clean imports.
 
-### `npm run eject`
+### Dark/Light Mode
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Toggle button in the Navbar switches between dark and light theme
+- Choice is saved in `localStorage` so it persists on page refresh
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Getting Started
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm install
+npm start
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Open [http://localhost:3000](http://localhost:3000) to view the app.

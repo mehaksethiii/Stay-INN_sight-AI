@@ -1,7 +1,16 @@
 import React from 'react';
 
-function Button({ variant = 'primary', size = 'md', onClick, children, disabled = false }) {
+/**
+ * Button component
+ * @param {string} variant - 'primary' | 'secondary' | 'outline'
+ * @param {string} size - 'sm' | 'md' | 'lg'
+ * @param {function} onClick - click handler
+ * @param {React.ReactNode} children - button label
+ * @param {boolean} disabled - disables the button
+ */
 
+function Button({ variant = 'primary', size = 'md', onClick, children, disabled = false }) {
+/* props what the button accepts */
   const baseClass = 'btn';
 
   const variantClass = {
