@@ -1,0 +1,27 @@
+Weekly Progress Report — Week 3
+Name: Mehak Sethi
+Intern ID: TBI-26101076
+Project: INN Sight AI — Guest Review Classifier System
+Week: Week 3
+
+---
+
+What I worked on this week:
+
+This week I focused on UI/UX and building a proper component library for the project. I started by creating lo-fi wireframes in Figma for all six core screens — Home, Dashboard, Login, About, Settings, and the AI Classifier screen. The wireframes are grey box style with no colour, just layout and flow.
+
+After that I built five reusable UI components inside a /components/ui/ folder — Button, Input, Modal, Toast, and Loader. Each component accepts props so it can be reused in different parts of the app with different configurations. I also added JSDoc comments to each component so the props are clearly documented.
+
+I added a dark/light mode toggle button to the Navbar. Clicking it switches the whole app between dark and light theme, and the choice is saved in localStorage so it stays even after refreshing the page.
+
+I also tested the app at three viewport sizes — 375px mobile, 768px tablet, and 1440px desktop — and took screenshots to confirm the layout is responsive at all sizes.
+
+What was challenging:
+
+Exporting the Figma wireframes as a PDF was harder than expected because I was using Figma Make which does not have the standard export option. I worked around it by taking screenshots of each screen and combining them into a PDF manually.
+
+Passing the dark mode state between App.js and Navbar was also a bit confusing at first since they are separate components. I solved it by keeping the state in App.js and passing it down as props to Navbar.
+
+What's next:
+
+Next week I plan to start working on the backend and API development for the review classifier feature.
