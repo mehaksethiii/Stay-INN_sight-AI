@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ darkMode, toggleDarkMode }) {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className={`navbar navbar-expand-lg ${darkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">INN Sight AI</Link>
+        <Link className="navbar-brand fw-bold" to="/">INN Sight AI</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -24,6 +24,14 @@ function Navbar() {
               <Link className="nav-link" to="/login">Login</Link>
             </li>
           </ul>
+          {/* Dark/Light mode toggle button */}
+          <button
+            className="btn btn-outline-secondary ms-2"
+            onClick={toggleDarkMode}
+            title="Toggle dark/light mode"
+          >
+            {darkMode ? '☀️ Light' : '🌙 Dark'}
+          </button>
         </div>
       </div>
     </nav>
