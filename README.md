@@ -41,9 +41,19 @@ All components are exported from a single `index.js` file for clean imports.
 
 ## Getting Started
 
+### Run Frontend
 ```bash
 npm install
 npm start
 ```
+Open [http://localhost:3000](http://localhost:3000)
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+### Run Backend
+```bash
+cd backend
+npm install
+npm run dev
+```
+Backend runs on [http://localhost:5000](http://localhost:5000)
+
+> Both frontend and backend must run simultaneously for full functionality.

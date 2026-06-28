@@ -1,32 +1,40 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
-    <footer className="bg-dark text-light py-4 mt-5">
+    <footer className="footer-custom">
       <div className="container">
-        <div className="row">
-          <div className="col-md-4 mb-3">
-            <h5>INN Sight AI</h5>
-            <p className="text-muted">A smart guest review classifier system powered by AI.</p>
+        <div className="row mb-4">
+          <div className="col-md-4 mb-4">
+            <div className="footer-brand mb-2">INN Sight AI</div>
+            <p style={{ fontSize: '0.9rem', color: '#888', lineHeight: '1.7' }}>
+              A smart guest review classifier system powered by AI. Helping homestays understand their guests better.
+            </p>
           </div>
-          <div className="col-md-4 mb-3">
-            <h6>Links</h6>
-            <ul className="list-unstyled">
-              <li><a href="#home" className="text-muted text-decoration-none">Home</a></li>
-              <li><a href="#about" className="text-muted text-decoration-none">About</a></li>
-              <li><a href="#dashboard" className="text-muted text-decoration-none">Dashboard</a></li>
-              <li><a href="#contact" className="text-muted text-decoration-none">Contact</a></li>
-            </ul>
+          <div className="col-md-2 mb-4">
+            <h6 style={{ color: '#fff', fontWeight: '700', marginBottom: '1rem' }}>Pages</h6>
+            <Link to="/" className="footer-link">Home</Link>
+            <Link to="/about" className="footer-link">About</Link>
+            <Link to="/dashboard" className="footer-link">Dashboard</Link>
+            <Link to="/login" className="footer-link">Login</Link>
           </div>
-          <div className="col-md-4 mb-3">
-            <h6>Follow Us</h6>
-            <a href="#twitter" className="text-muted me-3 text-decoration-none">Twitter</a>
-            <a href="#instagram" className="text-muted me-3 text-decoration-none">Instagram</a>
-            <a href="#linkedin" className="text-muted text-decoration-none">LinkedIn</a>
+          <div className="col-md-3 mb-4">
+            <h6 style={{ color: '#fff', fontWeight: '700', marginBottom: '1rem' }}>Features</h6>
+            <span className="footer-link">Sentiment Analysis</span>
+            <span className="footer-link">Theme Detection</span>
+            <span className="footer-link">Auto Responses</span>
+            <span className="footer-link">Batch Processing</span>
+          </div>
+          <div className="col-md-3 mb-4">
+            <h6 style={{ color: '#fff', fontWeight: '700', marginBottom: '1rem' }}>Connect</h6>
+            <a href="#twitter" className="footer-link">🐦 Twitter</a>
+            <a href="#instagram" className="footer-link">📸 Instagram</a>
+            <a href="#linkedin" className="footer-link">💼 LinkedIn</a>
           </div>
         </div>
-        <hr className="border-secondary" />
-        <p className="text-center text-muted mb-0">&copy; 2025 INN Sight AI. All rights reserved.</p>
+        <hr className="footer-divider" />
+        <p className="footer-copy">© 2025 INN Sight AI. All rights reserved. Built with ❤️ for Trishul Eco-Homestays.</p>
       </div>
     </footer>
   );
