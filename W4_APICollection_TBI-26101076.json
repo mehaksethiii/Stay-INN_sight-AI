@@ -13,9 +13,13 @@
       "expectedStatus": 200,
       "exampleResponse": {
         "success": true,
-        "count": 5,
+        "count": 7,
         "data": [
-          { "id": 1, "guestName": "Priya Sharma", "reviewText": "Amazing stay! The room was clean and staff was very friendly.", "sentiment": "positive", "theme": "host", "response": "Thank you Priya! We are delighted to hear you enjoyed your stay." }
+          { "id": 1, "guestName": "Priya Sharma", "reviewText": "Amazing stay! The room was clean and staff was very friendly.", "sentiment": "positive", "theme": "host", "response": "Thank you Priya! We are delighted to hear you enjoyed your stay." },
+          { "id": 2, "guestName": "Rohan Mehta", "reviewText": "The location was great but the food quality was average.", "sentiment": "neutral", "theme": "food", "response": "Thank you for your feedback Rohan. We will work on improving our food quality." },
+          { "id": 3, "guestName": "Ananya Singh", "reviewText": "The room was dirty and service was very slow. Disappointing experience.", "sentiment": "negative", "theme": "cleanliness", "response": "We sincerely apologize Ananya. This is not the experience we aim to provide." },
+          { "id": 4, "guestName": "Vikram Joshi", "reviewText": "Beautiful property with stunning views. Will definitely come back!", "sentiment": "positive", "theme": "location", "response": "Thank you Vikram! We look forward to welcoming you again." },
+          { "id": 5, "guestName": "Meera Patel", "reviewText": "Great value for money. Comfortable rooms and helpful staff.", "sentiment": "positive", "theme": "value", "response": "Thank you Meera! We are glad you found great value in your stay." }
         ]
       }
     },
@@ -27,7 +31,7 @@
       "expectedStatus": 200,
       "exampleResponse": {
         "success": true,
-        "data": { "id": 1, "guestName": "Priya Sharma", "reviewText": "Amazing stay!", "sentiment": "positive", "theme": "host", "response": "Thank you Priya!" }
+        "data": { "id": 1, "guestName": "Priya Sharma", "reviewText": "Amazing stay! The room was clean and staff was very friendly.", "sentiment": "positive", "theme": "host", "response": "Thank you Priya! We are delighted to hear you enjoyed your stay." }
       }
     },
     {
