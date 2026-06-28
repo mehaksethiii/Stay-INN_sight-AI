@@ -1,0 +1,102 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "INN Sight AI API",
+  "dateExported": "2026-06-28",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "name": "Get All Reviews",
+      "method": "GET",
+      "url": "http://localhost:5000/api/reviews",
+      "description": "Returns all guest reviews stored in the system",
+      "expectedStatus": 200,
+      "exampleResponse": {
+        "success": true,
+        "count": 5,
+        "data": [
+          { "id": 1, "guestName": "Priya Sharma", "reviewText": "Amazing stay! The room was clean and staff was very friendly.", "sentiment": "positive", "theme": "host", "response": "Thank you Priya! We are delighted to hear you enjoyed your stay." }
+        ]
+      }
+    },
+    {
+      "name": "Get Single Review",
+      "method": "GET",
+      "url": "http://localhost:5000/api/reviews/1",
+      "description": "Returns a single review by ID",
+      "expectedStatus": 200,
+      "exampleResponse": {
+        "success": true,
+        "data": { "id": 1, "guestName": "Priya Sharma", "reviewText": "Amazing stay!", "sentiment": "positive", "theme": "host", "response": "Thank you Priya!" }
+      }
+    },
+    {
+      "name": "Add New Review (POST)",
+      "method": "POST",
+      "url": "http://localhost:5000/api/reviews",
+      "description": "Creates a new review. Sentiment and theme are auto-classified using rule-based classifier.",
+      "body": {
+        "guestName": "Test User",
+        "reviewText": "The room was dirty and the staff was very rude.",
+        "experienceType": ""
+      },
+      "expectedStatus": 201,
+      "exampleResponse": {
+        "success": true,
+        "data": { "id": 6, "guestName": "Test User", "reviewText": "The room was dirty and the staff was very rude.", "sentiment": "negative", "theme": "cleanliness", "response": "We apologize Test for the cleanliness issue. This is not our standard and we will fix it right away." }
+      }
+    },
+    {
+      "name": "Update Review (PUT)",
+      "method": "PUT",
+      "url": "http://localhost:5000/api/reviews/1",
+      "description": "Updates an existing review by ID",
+      "body": {
+        "reviewText": "Updated - Amazing stay overall!"
+      },
+      "expectedStatus": 200,
+      "exampleResponse": {
+        "success": true,
+        "data": { "id": 1, "guestName": "Priya Sharma", "reviewText": "Updated - Amazing stay overall!", "sentiment": "positive", "theme": "host" }
+      }
+    },
+    {
+      "name": "Delete Review (DELETE)",
+      "method": "DELETE",
+      "url": "http://localhost:5000/api/reviews/5",
+      "description": "Deletes a review by ID. Returns 204 No Content on success.",
+      "expectedStatus": 204,
+      "exampleResponse": {}
+    },
+    {
+      "name": "Search Reviews",
+      "method": "GET",
+      "url": "http://localhost:5000/api/reviews/search?q=food",
+      "description": "Searches reviews by keyword in review text, guest name, or theme",
+      "expectedStatus": 200,
+      "exampleResponse": {
+        "success": true,
+        "count": 1,
+        "data": [
+          { "id": 2, "guestName": "Rohan Mehta", "reviewText": "The location was great but the food quality was average.", "sentiment": "neutral", "theme": "food" }
+        ]
+      }
+    },
+    {
+      "name": "Filter by Sentiment",
+      "method": "GET",
+      "url": "http://localhost:5000/api/reviews/filter?sentiment=positive",
+      "description": "Filters reviews by sentiment - positive, neutral, or negative",
+      "expectedStatus": 200,
+      "exampleResponse": {
+        "success": true,
+        "count": 3,
+        "data": [
+          { "id": 1, "guestName": "Priya Sharma", "sentiment": "positive" },
+          { "id": 4, "guestName": "Vikram Joshi", "sentiment": "positive" },
+          { "id": 5, "guestName": "Meera Patel", "sentiment": "positive" }
+        ]
+      }
+    }
+  ]
+}
