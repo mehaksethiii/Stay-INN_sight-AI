@@ -1,0 +1,23 @@
+Weekly Progress Report — Week 4
+Name: Mehak Sethi
+Intern ID: TBI-26101076
+Project: INN Sight AI — Guest Review Classifier System
+Week: Week 4
+
+---
+
+What I worked on this week:
+
+This week I built the backend for INN Sight AI using Node.js and Express. I created a /backend folder with a server.js file that runs on port 5000. I set up 7 REST API endpoints for guest reviews — getting all reviews, getting a single review by ID, adding a new review, updating and deleting reviews, searching reviews by keyword, and filtering by sentiment.
+
+The most interesting part was implementing a rule-based classifier. Instead of asking the user to manually select positive, neutral, or negative — the system now automatically detects the sentiment from the review text using keyword matching. It also detects the theme (food, host, location, cleanliness, value, experience) and generates a suggested management response automatically.
+
+I connected the Dashboard page on the frontend to the backend so it fetches real data from the API. I also added an Add Review form on the Dashboard where staff can paste a review, and the system classifies it instantly. I set up CORS so the frontend and backend can communicate, and added a .env file for environment variables.
+
+What was challenging:
+
+Route ordering in Express was confusing at first. The /search and /filter routes were being matched by the /:id route because Express reads routes top to bottom. Moving the specific routes above the dynamic /:id route fixed it.
+
+What's next:
+
+Next week I plan to connect the app to a real database instead of in-memory data, so reviews persist even after the server restarts.
