@@ -39,7 +39,21 @@ All components are exported from a single `index.js` file for clean imports.
 
 ---
 
-## Getting Started
+## Week 4 — Backend & API Development
+
+Built the full backend using Node.js and Express, connected it to the frontend, and deployed the entire app live.
+
+### Live URLs
+- **Frontend (Vercel):** [https://stay-inn-sight-ai-f3ov.vercel.app](https://stay-inn-sight-ai-f3ov.vercel.app)
+- **Backend API (Render):** [https://stay-inn-sight-ai.onrender.com](https://stay-inn-sight-ai.onrender.com)
+
+### What was built
+- 7 REST API endpoints — get all reviews, get single, add, update, delete, search, filter
+- Rule-based sentiment classifier — automatically detects positive, neutral, or negative from review text
+- Auto theme detection — food, host, location, cleanliness, value, experience
+- Auto management response generation based on sentiment and theme
+- Dashboard connected to live API with Add Review form
+- Firebase Google Authentication added on Login page
 
 ### Run Frontend
 ```bash

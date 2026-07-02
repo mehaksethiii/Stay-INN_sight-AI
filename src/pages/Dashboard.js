@@ -22,7 +22,7 @@ function Dashboard() {
   const fetchReviews = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/reviews');
+      const res = await fetch('https://stay-inn-sight-ai.onrender.com/api/reviews');
       const data = await res.json();
       setReviews(data.data);
       setLoading(false);
@@ -36,7 +36,7 @@ function Dashboard() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch('http://localhost:5000/api/reviews', {
+      const res = await fetch('https://stay-inn-sight-ai.onrender.com/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
