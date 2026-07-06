@@ -1,0 +1,25 @@
+Weekly Progress Report — Week 5
+Name: Mehak Sethi
+Intern ID: TBI-26101076
+Project: INN Sight AI — Guest Review Classifier System
+Week: Week 5
+
+---
+
+What I worked on this week:
+
+This week I replaced the in-memory data in the backend with a real database. I chose MongoDB Atlas (free M0 tier) and used Mongoose as the ODM to connect Node.js with MongoDB.
+
+I designed a Review schema with fields for guestName, reviewText, sentiment, theme, response, and experienceType. Timestamps (createdAt and updatedAt) are automatically managed by Mongoose. I added validation so that guestName and reviewText are required, and enum validation on the sentiment and theme fields to ensure only valid values are stored.
+
+After setting up the schema, I refactored all 7 API endpoints to use Mongoose instead of the in-memory array. This means reviews now persist permanently even after the server restarts. I tested all CRUD operations — Create, Read, Update, Delete — on the live Render deployment and confirmed everything works correctly with MongoDB Atlas.
+
+I also deployed the updated backend to Render with the MONGO_URL environment variable added, and confirmed the connection was successful by checking the Render logs which showed "Connected to MongoDB Atlas".
+
+What was challenging:
+
+I faced a DNS resolution error when trying to connect to MongoDB Atlas from my local machine. The error was "querySrv ECONNREFUSED" which turned out to be my local network blocking MongoDB SRV lookups. I resolved this by deploying to Render where the connection works fine, since Render's servers don't have the same network restrictions.
+
+What's next:
+
+Next week I plan to implement proper authentication and authorization so only logged-in users can access the dashboard and add reviews.
