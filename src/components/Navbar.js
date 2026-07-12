@@ -1,7 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar({ darkMode, toggleDarkMode }) {
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-custom">
       <div className="container-fluid">
@@ -17,16 +26,38 @@ function Navbar({ darkMode, toggleDarkMode }) {
             <li className="nav-item">
               <Link className="nav-link" to="/about">About</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/dashboard">Dashboard</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">Login</Link>
-            </li>
+            {isAuthenticated && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">Profile</Link>
+                </li>
+              </>
+            )}
           </ul>
-          <button className="dark-toggle-btn" onClick={toggleDarkMode}>
-            {darkMode ? '☀️ Light' : '🌙 Dark'}
-          </button>
+          <div className="d-flex align-items-center gap-3">
+            {isAuthenticated ? (
+              <>
+                <span style={{ color: '#f5ede0', fontSize: '0.9rem' }}>
+                  Hi, {user?.name?.split(' ')[0]}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="nav-link btn btn-link"
+                  style={{ color: '#f5ede0', textDecoration: 'none', padding: 0 }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link className="nav-link" to="/login">Login</Link>
+            )}
+            <button className="dark-toggle-btn" onClick={toggleDarkMode}>
+              {darkMode ? '☀️ Light' : '🌙 Dark'}
+            </button>
+          </div>
         </div>
       </div>
     </nav>

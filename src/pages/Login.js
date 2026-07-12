@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { auth, googleProvider } from '../firebase';
-import { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../utils/api';
 
 const images = ['/home_page.png', '/hotel_room.png'];
 
 function Login() {
   const [isSignup, setIsSignup] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,6 +17,11 @@ function Login() {
   const [current, setCurrent] = useState(0);
   const [fade, setFade] = useState(true);
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/dashboard', { replace: true });
+  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,10 +37,27 @@ function Login() {
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-      await signInWithPopup(auth, googleProvider);
+      setError('');
+      const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken();
+
+      const res = await fetch(`${API_URL}/api/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'Google login failed.');
+        setLoading(false);
+        return;
+      }
+
+      login(data.token, data.user);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message);
+      setError(err.message.replace('Firebase: ', '').replace(/\(.*\)/, ''));
     }
     setLoading(false);
   };
@@ -42,14 +67,26 @@ function Login() {
     setError('');
     setLoading(true);
     try {
-      if (isSignup) {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
+      const endpoint = isSignup ? '/api/auth/register' : '/api/auth/login';
+      const body = isSignup ? { name, email, password } : { email, password };
+
+      const res = await fetch(`${API_URL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || 'Authentication failed.');
+        setLoading(false);
+        return;
       }
+
+      login(data.token, data.user);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message.replace('Firebase: ', '').replace(/\(.*\)/, ''));
+      setError('Unable to connect to server. Make sure the backend is running.');
     }
     setLoading(false);
   };
@@ -122,6 +159,16 @@ function Login() {
 
         {/* Email/Password Form */}
         <form onSubmit={handleEmailAuth}>
+          {isSignup && (
+            <input
+              style={inputStyle}
+              type="text"
+              placeholder="Full name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required
+            />
+          )}
           <input
             style={inputStyle}
             type="email"
@@ -137,6 +184,7 @@ function Login() {
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
+            minLength={6}
           />
 
           {error && (

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL, getAuthHeaders } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
 
 function Dashboard() {
+  const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +25,7 @@ function Dashboard() {
   const fetchReviews = async () => {
     try {
       setLoading(true);
-      const res = await fetch('https://stay-inn-sight-ai.onrender.com/api/reviews');
+      const res = await fetch(`${API_URL}/api/reviews`);
       const data = await res.json();
       setReviews(data.data);
       setLoading(false);
@@ -36,12 +39,16 @@ function Dashboard() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch('https://stay-inn-sight-ai.onrender.com/api/reviews', {
+      const res = await fetch(`${API_URL}/api/reviews`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(form),
       });
       const data = await res.json();
+      if (!res.ok) {
+        setError(data.message || 'Failed to add review. Please log in again.');
+        return;
+      }
       setReviews([...reviews, data.data]);
       setForm({ guestName: '', reviewText: '', experienceType: '' });
       setShowForm(false);
@@ -71,7 +78,7 @@ function Dashboard() {
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', color: '#3e2410' }}>
             Dashboard
           </h1>
-          <p style={{ color: '#6b4c35' }}>Live guest reviews from the API.</p>
+          <p style={{ color: '#6b4c35' }}>Welcome, {user?.name?.split(' ')[0]}! Live guest reviews from the API.</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}

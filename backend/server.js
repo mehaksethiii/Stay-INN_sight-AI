@@ -15,8 +15,12 @@ mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// ===== REVIEW MODEL =====
+// ===== MODELS =====
 const Review = require('./models/Review');
+const requireAuth = require('./middleware/auth');
+
+// ===== AUTH ROUTES =====
+app.use('/api/auth', require('./routes/auth'));
 
 // ===== RULE-BASED CLASSIFIER =====
 function classifySentiment(text) {
@@ -108,8 +112,8 @@ app.get('/api/reviews/:id', async (req, res) => {
   }
 });
 
-// POST /api/reviews — create review
-app.post('/api/reviews', async (req, res) => {
+// POST /api/reviews — create review (protected)
+app.post('/api/reviews', requireAuth, async (req, res) => {
   try {
     const { guestName, reviewText, experienceType } = req.body;
     if (!guestName || !reviewText) return res.status(400).json({ success: false, message: 'guestName and reviewText are required' });
@@ -123,8 +127,8 @@ app.post('/api/reviews', async (req, res) => {
   }
 });
 
-// PUT /api/reviews/:id — update review
-app.put('/api/reviews/:id', async (req, res) => {
+// PUT /api/reviews/:id — update review (protected)
+app.put('/api/reviews/:id', requireAuth, async (req, res) => {
   try {
     const review = await Review.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
@@ -134,8 +138,8 @@ app.put('/api/reviews/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/reviews/:id — delete review
-app.delete('/api/reviews/:id', async (req, res) => {
+// DELETE /api/reviews/:id — delete review (protected)
+app.delete('/api/reviews/:id', requireAuth, async (req, res) => {
   try {
     const review = await Review.findByIdAndDelete(req.params.id);
     if (!review) return res.status(404).json({ success: false, message: 'Review not found' });
@@ -147,6 +151,7 @@ app.delete('/api/reviews/:id', async (req, res) => {
 
 // ===== ERROR HANDLING =====
 app.use((err, req, res, next) => {
+  console.error('Error occurred:', err);
   res.status(500).json({ success: false, message: 'Internal server error' });
 });
 
