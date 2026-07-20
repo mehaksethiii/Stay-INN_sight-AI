@@ -32,6 +32,9 @@ function Navbar({ darkMode, toggleDarkMode }) {
                   <Link className="nav-link" to="/dashboard">Dashboard</Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/ai-analyser" style={{ color: '#f5c842', fontWeight: 700 }}>🤖 AI Analyser</Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link" to="/profile">Profile</Link>
                 </li>
               </>

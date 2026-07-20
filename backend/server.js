@@ -20,8 +20,14 @@ mongoose.connect(process.env.MONGO_URL)
 const Review = require('./models/Review');
 const requireAuth = require('./middleware/auth');
 
+// ===== AI SERVICES =====
+const { classifySentimentAI } = require('./services/sentiment.service');
+
 // ===== AUTH ROUTES =====
 app.use('/api/auth', require('./routes/auth'));
+
+// ===== AI ROUTES =====
+app.use('/api/ai', require('./routes/ai'));
 
 // ===== RULE-BASED CLASSIFIER =====
 function classifySentiment(text) {
@@ -113,16 +119,26 @@ app.get('/api/reviews/:id', async (req, res) => {
   }
 });
 
-// POST /api/reviews — create review (protected)
+// POST /api/reviews — create review with AI sentiment (protected)
 app.post('/api/reviews', requireAuth, async (req, res) => {
   try {
     const { guestName, reviewText, experienceType } = req.body;
     if (!guestName || !reviewText) return res.status(400).json({ success: false, message: 'guestName and reviewText are required' });
-    const sentiment = classifySentiment(reviewText);
+
+    // AI sentiment classification (Groq → HF → Local NLP)
+    const aiSentiment = await classifySentimentAI(reviewText);
+    const sentiment = aiSentiment.sentiment;
+
+    // Rule-based theme + response (preserved)
     const theme = experienceType || classifyTheme(reviewText);
     const response = generateResponse(sentiment, theme, guestName);
+
     const review = await Review.create({ guestName, reviewText, sentiment, theme, response, experienceType });
-    res.status(201).json({ success: true, data: review });
+    res.status(201).json({
+      success: true,
+      data: review,
+      aiMeta: { sentimentEngine: aiSentiment.engine, confidence: aiSentiment.confidence },
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

@@ -27,10 +27,11 @@ function Dashboard() {
       setLoading(true);
       const res = await fetch(`${API_URL}/api/reviews`);
       const data = await res.json();
-      setReviews(data.data);
+      setReviews(data.data || []);
       setLoading(false);
     } catch (err) {
       setError('Failed to fetch reviews. Make sure the backend is running.');
+      setReviews([]);
       setLoading(false);
     }
   };

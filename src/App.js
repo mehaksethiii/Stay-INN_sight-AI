@@ -11,6 +11,8 @@ import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import AIAnalyser from './pages/AIAnalyser';
+import FloatingChatbot from './components/FloatingChatbot';
 
 function App() {
   // load saved preference from localStorage, default to false (light)
@@ -49,8 +51,18 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/ai-analyser"
+              element={
+                <ProtectedRoute>
+                  <AIAnalyser />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
           <Footer />
+          {/* Floating AI Chatbot — visible on all pages when authenticated */}
+          <FloatingChatbot />
         </BrowserRouter>
       </AuthProvider>
     </div>
