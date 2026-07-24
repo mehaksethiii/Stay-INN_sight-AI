@@ -40,8 +40,7 @@ function Footer() {
             <h6 style={{ color: '#f5ede0', fontWeight: 800, marginBottom: '1.2rem', letterSpacing: '0.5px' }}>Connect</h6>
             <div className="d-flex flex-column gap-2">
               <a href="https://github.com/mehaksethiii/Stay-INN_sight-AI" target="_blank" rel="noopener noreferrer" className="footer-link">🐙 GitHub Repo</a>
-              <a href="#twitter" className="footer-link">🐦 Twitter</a>
-              <a href="#linkedin" className="footer-link">💼 LinkedIn</a>
+              <a href="https://www.linkedin.com/in/mehak-sethi-946335322" target="_blank" rel="noopener noreferrer" className="footer-link">💼 LinkedIn Profile</a>
             </div>
           </div>
         </div>
