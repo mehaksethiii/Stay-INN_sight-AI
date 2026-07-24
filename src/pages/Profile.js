@@ -29,11 +29,12 @@ function Profile() {
   };
 
   const containerStyle = {
-    minHeight: '80vh',
+    minHeight: '100vh',
+    background: 'linear-gradient(160deg, #fef9f4 0%, #f5ede0 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '2rem 1rem',
+    padding: '3rem 1rem',
   };
 
   const cardStyle = {
@@ -112,7 +113,7 @@ function Profile() {
           <div className="spinner-border" style={{ color: '#c8845a' }} role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
-          <p style={{ color: '#6b4c35', marginTop: '1rem' }}>Loading your profile...</p>
+          <p style={{ color: '#6b4c35', marginTop: '1rem', fontWeight: 600 }}>Loading your profile...</p>
         </div>
       </div>
     );
