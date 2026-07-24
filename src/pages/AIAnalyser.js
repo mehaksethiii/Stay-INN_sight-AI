@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { API_URL, getAuthHeaders } from '../utils/api';
 
 const EMOTION_EMOJI = { joy:'😊', anger:'😠', sadness:'😢', fear:'😨', disgust:'🤢', surprise:'😲', neutral:'😐' };
@@ -28,17 +29,22 @@ function Skeleton() {
 
 /* ── Main Component ───────────────────────────────────────────────────────── */
 export default function AIAnalyser() {
+  const navigate = useNavigate();
   const [reviewText, setReviewText] = useState('');
   const [guestName,  setGuestName]  = useState('');
   const [loading,    setLoading]    = useState(false);
   const [result,     setResult]     = useState(null);
   const [error,      setError]      = useState('');
   const [copied,     setCopied]     = useState(false);
+  
+  // Dashboard Save state
+  const [saving, setSaving] = useState(false);
+  const [saved,  setSaved]  = useState(false);
 
   const handleAnalyse = async (e) => {
     if (e) e.preventDefault();
     if (reviewText.trim().length < 10) { setError('Please enter at least 10 characters.'); return; }
-    setLoading(true); setError(''); setResult(null);
+    setLoading(true); setError(''); setResult(null); setSaved(false);
     try {
       const res  = await fetch(`${API_URL}/api/ai/analyse`, {
         method:'POST', headers:getAuthHeaders(),
@@ -51,6 +57,32 @@ export default function AIAnalyser() {
       setError('Cannot connect to the backend. Make sure the server is running.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveToDashboard = async () => {
+    if (!reviewText.trim()) return;
+    setSaving(true);
+    try {
+      const res = await fetch(`${API_URL}/api/reviews`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          guestName: guestName.trim() || 'Anonymous Guest',
+          reviewText: reviewText.trim(),
+          experienceType: combined?.detectedThemes?.[0] || 'experience',
+        }),
+      });
+      if (res.ok) {
+        setSaved(true);
+      } else {
+        const data = await res.json();
+        setError(data.message || 'Failed to save review to database.');
+      }
+    } catch (err) {
+      setError('Failed to save review to database.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -71,6 +103,55 @@ export default function AIAnalyser() {
         @keyframes fadeIn  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
         @keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:.45} }
         @keyframes spin    { to{transform:rotate(360deg)} }
+
+        .figma-glass-btn {
+          background: rgba(255, 255, 255, 0.25) !important;
+          backdrop-filter: blur(14px) !important;
+          -webkit-backdrop-filter: blur(14px) !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+          color: #3e2410 !important;
+          padding: 0.8rem 2.2rem !important;
+          border-radius: 30px !important;
+          font-weight: 800 !important;
+          font-size: 0.92rem !important;
+          cursor: pointer !important;
+          box-shadow: 0 8px 25px rgba(62, 36, 16, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 0.5rem !important;
+        }
+
+        .figma-glass-btn:hover {
+          background: rgba(255, 255, 255, 0.45) !important;
+          border-color: #c8845a !important;
+          transform: translateY(-2px) scale(1.02) !important;
+          box-shadow: 0 12px 30px rgba(200, 132, 90, 0.25) !important;
+        }
+
+        .figma-glass-btn-dark {
+          background: rgba(62, 36, 16, 0.35) !important;
+          backdrop-filter: blur(14px) !important;
+          -webkit-backdrop-filter: blur(14px) !important;
+          border: 1.5px solid rgba(245, 237, 224, 0.4) !important;
+          color: #f5ede0 !important;
+          padding: 0.8rem 2.2rem !important;
+          border-radius: 30px !important;
+          font-weight: 800 !important;
+          font-size: 0.92rem !important;
+          cursor: pointer !important;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 0.5rem !important;
+        }
+
+        .figma-glass-btn-dark:hover {
+          background: rgba(62, 36, 16, 0.55) !important;
+          border-color: #f5ede0 !important;
+          transform: translateY(-2px) scale(1.02) !important;
+        }
       `}</style>
 
       <div style={{ maxWidth:780, margin:'0 auto' }}>
@@ -85,6 +166,37 @@ export default function AIAnalyser() {
             Powered by Groq · LLaMA 3.1 — instant 1-sentence summaries, sentiment classification &amp; management responses
           </p>
         </div>
+
+        {/* Saved Success Toast Banner */}
+        {saved && (
+          <div style={{
+            background: 'linear-gradient(135deg, #e8f5e9, #c8e6c9)',
+            border: '2px solid #2e7d32',
+            borderRadius: '16px',
+            padding: '1.2rem 1.6rem',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 8px 25px rgba(46, 125, 50, 0.2)',
+            animation: 'fadeIn 0.3s ease'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+              <span style={{ fontSize: '1.6rem' }}>🎉</span>
+              <div>
+                <h6 style={{ margin: 0, color: '#1b5e20', fontWeight: 800 }}>Review Successfully Added to Dashboard!</h6>
+                <p style={{ margin: 0, color: '#2e7d32', fontSize: '0.88rem' }}>It is now live in your database and visible on your dashboard table.</p>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="figma-glass-btn"
+              style={{ padding: '0.5rem 1.2rem !important', fontSize: '0.82rem !important' }}
+            >
+              📊 View Dashboard →
+            </button>
+          </div>
+        )}
 
         {/* ── Input Form ───────────────────────────────────────────────── */}
         <div style={{ background:'rgba(255,255,255,0.97)', borderRadius:'24px', padding:'2.2rem', boxShadow:'0 10px 40px rgba(62,36,16,0.1)', border:'1px solid #e8d5bc', marginBottom:'2rem' }}>
@@ -143,7 +255,7 @@ export default function AIAnalyser() {
               <span style={{ color:'#9e7b60', fontSize:'0.8rem', fontWeight:700, display:'block', marginBottom:'0.35rem' }}>💡 Quick Examples: </span>
               <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap' }}>
                 {EXAMPLES.map((ex,i) => (
-                  <button key={i} type="button" onClick={()=>{ setReviewText(ex); setResult(null); setError(''); }}
+                  <button key={i} type="button" onClick={()=>{ setReviewText(ex); setResult(null); setError(''); setSaved(false); }}
                     style={{ background:'#f5ede0', border:'1px solid #e8d5bc', borderRadius:'15px', padding:'0.3rem 0.85rem', fontSize:'0.76rem', color:'#6b3f20', cursor:'pointer', fontWeight:600 }}>
                     Example {i+1} ({ex.slice(0, 30)}...)
                   </button>
@@ -159,15 +271,25 @@ export default function AIAnalyser() {
 
             <div style={{ display:'flex', gap:'0.8rem', flexWrap:'wrap' }}>
               <button type="submit" disabled={loading}
-                style={{ background: loading ? '#d7b99a' : 'linear-gradient(135deg,#c8845a,#6b3f20)', color:'#fff', border:'none', padding:'0.8rem 2.4rem', borderRadius:'25px', fontWeight:700, cursor: loading?'not-allowed':'pointer', fontSize:'0.95rem', transition:'all 0.2s', display:'flex', alignItems:'center', gap:'0.6rem', boxShadow:'0 4px 15px rgba(107,63,32,0.2)' }}>
+                style={{ background: loading ? '#d7b99a' : 'linear-gradient(135deg,#c8845a,#6b3f20)', color:'#fff', border:'none', padding:'0.8rem 2.2rem', borderRadius:'30px', fontWeight:700, cursor: loading?'not-allowed':'pointer', fontSize:'0.95rem', transition:'all 0.2s', display:'flex', alignItems:'center', gap:'0.6rem', boxShadow:'0 4px 15px rgba(107,63,32,0.2)' }}>
                 {loading
                   ? <><span style={{ width:16,height:16,border:'2px solid rgba(255,255,255,0.4)',borderTop:'2px solid #fff',borderRadius:'50%',display:'inline-block',animation:'spin 0.8s linear infinite' }} /> Processing...</>
                   : '🔍 Full AI Analysis & Verdict'}
               </button>
 
               <button type="button" onClick={handleAnalyse} disabled={loading}
-                style={{ background: '#f5ede0', color: '#6b3f20', border: '1.5px solid #e8d5bc', padding: '0.8rem 2rem', borderRadius: '25px', fontWeight: 700, cursor: loading?'not-allowed':'pointer', fontSize: '0.95rem', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                style={{ background: '#f5ede0', color: '#6b3f20', border: '1.5px solid #e8d5bc', padding: '0.8rem 1.8rem', borderRadius: '30px', fontWeight: 700, cursor: loading?'not-allowed':'pointer', fontSize: '0.95rem', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 ⚡ Summarize Review
+              </button>
+
+              {/* FIGMA GLASS BUTTON — Direct Add Review */}
+              <button
+                type="button"
+                onClick={handleSaveToDashboard}
+                disabled={saving || saved || !reviewText.trim()}
+                className="figma-glass-btn"
+              >
+                {saving ? '⏳ Adding...' : saved ? '✅ Added to Dashboard!' : '➕ Save & Add Review'}
               </button>
             </div>
           </form>
@@ -280,19 +402,33 @@ export default function AIAnalyser() {
               <p style={{ color:'#fef9f4', fontSize:'0.95rem', margin:'0 0 1rem', fontStyle:'italic', lineHeight:1.75, borderLeft:'3px solid #c8845a', paddingLeft:'1rem' }}>
                 "{combined.managementResponse}"
               </p>
-              <button onClick={copyResponse}
-                style={{ background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.3)', color:'#f5ede0', padding:'0.4rem 1.2rem', borderRadius:'15px', fontSize:'0.8rem', cursor:'pointer', fontWeight:600, transition:'all 0.2s' }}>
-                {copied ? '✅ Copied!' : '📋 Copy Response'}
-              </button>
+              
+              <div style={{ display:'flex', gap:'0.8rem', alignItems:'center', flexWrap:'wrap' }}>
+                <button onClick={copyResponse}
+                  style={{ background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.3)', color:'#f5ede0', padding:'0.5rem 1.4rem', borderRadius:'20px', fontSize:'0.85rem', cursor:'pointer', fontWeight:600, transition:'all 0.2s' }}>
+                  {copied ? '✅ Copied!' : '📋 Copy Response'}
+                </button>
+
+                {/* FIGMA GLASS BUTTON IN RESULT CARD */}
+                <button
+                  type="button"
+                  onClick={handleSaveToDashboard}
+                  disabled={saving || saved}
+                  className="figma-glass-btn-dark"
+                >
+                  {saving ? '⏳ Saving...' : saved ? '✅ Saved to Dashboard!' : '➕ Save & Add Review to Dashboard'}
+                </button>
+              </div>
             </div>
 
-            {/* Analyse again */}
-            <div style={{ textAlign:'center', paddingBottom:'1rem' }}>
-              <button onClick={()=>{ setResult(null); setReviewText(''); setGuestName(''); setError(''); }}
+            {/* Action Bar */}
+            <div style={{ textAlign:'center', paddingBottom:'1rem', display:'flex', justifyContent:'center', gap:'1rem', flexWrap:'wrap' }}>
+              <button onClick={()=>{ setResult(null); setReviewText(''); setGuestName(''); setError(''); setSaved(false); }}
                 style={{ background:'none', border:'2px solid #c8845a', color:'#c8845a', padding:'0.6rem 2rem', borderRadius:'25px', fontWeight:700, cursor:'pointer', fontSize:'0.9rem' }}>
                 🔄 Analyse Another Review
               </button>
             </div>
+
           </div>
         )}
       </div>
