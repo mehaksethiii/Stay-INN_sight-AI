@@ -1,18 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 function CustomCursor() {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [followerPos, setFollowerPos] = useState({ x: -100, y: -100 });
+  const [pos, setPos] = useState({ x: -100, y: -100 });
+  const [ringPos, setRingPos] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
-  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
+  const particlesRef = useRef([]);
+  const canvasRef = useRef(null);
 
+  // Position tracking & magnetic hover detection
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      setPos({ x: e.clientX, y: e.clientY });
+
+      // Spawn antigravity stardust particles
+      if (Math.random() < 0.6) {
+        particlesRef.current.push({
+          x: e.clientX,
+          y: e.clientY,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5 - 1.2, // Float upwards (anti-gravity)
+          size: Math.random() * 3 + 1.5,
+          alpha: 1,
+          color: Math.random() > 0.5 ? '#c8845a' : '#f5ede0',
+        });
+      }
     };
 
-    const handleMouseDown = () => setIsMouseDown(true);
-    const handleMouseUp = () => setIsMouseDown(false);
+    const handleMouseDown = () => setIsClicking(true);
+    const handleMouseUp = () => setIsClicking(false);
 
     const handleMouseOver = (e) => {
       const target = e.target;
@@ -46,59 +62,130 @@ function CustomCursor() {
     };
   }, []);
 
-  // Smooth spring lag for the follower aura
+  // Smooth magnetic spring physics for outer ring
   useEffect(() => {
-    let animationFrameId;
-    const follow = () => {
-      setFollowerPos((prev) => ({
-        x: prev.x + (position.x - prev.x) * 0.15,
-        y: prev.y + (position.y - prev.y) * 0.15,
+    let animId;
+    const updateSpring = () => {
+      setRingPos((prev) => ({
+        x: prev.x + (pos.x - prev.x) * 0.18,
+        y: prev.y + (pos.y - prev.y) * 0.18,
       }));
-      animationFrameId = requestAnimationFrame(follow);
+      animId = requestAnimationFrame(updateSpring);
     };
-    animationFrameId = requestAnimationFrame(follow);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [position]);
+    animId = requestAnimationFrame(updateSpring);
+    return () => cancelAnimationFrame(animId);
+  }, [pos]);
+
+  // Particle Canvas Animation Loop (Anti-Gravity Floating Particles)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animFrame;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particlesRef.current.length; i++) {
+        const p = particlesRef.current[i];
+        p.x += p.vx;
+        p.y += p.vy; // anti-gravity upward float
+        p.alpha -= 0.025;
+
+        if (p.alpha <= 0) {
+          particlesRef.current.splice(i, 1);
+          i--;
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      animFrame = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animFrame);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
 
   return (
     <>
-      {/* Large Ambient Glow Aura */}
+      <style>{`
+        @keyframes antityPulse {
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.15); opacity: 1; }
+        }
+      `}</style>
+
+      {/* Particle Canvas */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          pointerEvents: 'none',
+          zIndex: 99998,
+        }}
+      />
+
+      {/* Antigravity Floating Magnetic Ring */}
       <div
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: isHovered ? '280px' : '220px',
-          height: isHovered ? '280px' : '220px',
+          width: isHovered ? 48 : isClicking ? 24 : 36,
+          height: isHovered ? 48 : isClicking ? 24 : 36,
           borderRadius: '50%',
-          background: isHovered
-            ? 'radial-gradient(circle, rgba(200, 132, 90, 0.35) 0%, rgba(107, 63, 32, 0.15) 50%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(200, 132, 90, 0.22) 0%, rgba(107, 63, 32, 0.08) 45%, transparent 70%)',
-          transform: `translate3d(${followerPos.x - (isHovered ? 140 : 110)}px, ${followerPos.y - (isHovered ? 140 : 110)}px, 0)`,
+          border: isHovered ? '2px solid #c8845a' : '1.5px solid rgba(200, 132, 90, 0.8)',
+          backgroundColor: isHovered ? 'rgba(200, 132, 90, 0.15)' : 'rgba(200, 132, 90, 0.05)',
+          boxShadow: isHovered ? '0 0 25px rgba(200, 132, 90, 0.6)' : '0 0 12px rgba(200, 132, 90, 0.3)',
+          transform: `translate3d(${ringPos.x - (isHovered ? 24 : isClicking ? 12 : 18)}px, ${ringPos.y - (isHovered ? 24 : isClicking ? 12 : 18)}px, 0)`,
           pointerEvents: 'none',
           zIndex: 99999,
-          mixBlendMode: 'screen',
-          transition: 'width 0.2s ease, height 0.2s ease, background 0.2s ease',
+          transition: 'width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease',
+          backdropFilter: isHovered ? 'blur(2px)' : 'none',
           willChange: 'transform',
         }}
       />
 
-      {/* Inner Precision Cursor Ring/Dot */}
+      {/* Luminous Antigravity Core Glowing Star Dot */}
       <div
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: isHovered ? '24px' : isMouseDown ? '8px' : '12px',
-          height: isHovered ? '24px' : isMouseDown ? '8px' : '12px',
+          width: isHovered ? 8 : 6,
+          height: isHovered ? 8 : 6,
           borderRadius: '50%',
-          border: '1.5px solid rgba(200, 132, 90, 0.95)',
-          backgroundColor: isHovered ? 'rgba(200, 132, 90, 0.3)' : 'rgba(107, 63, 32, 0.75)',
-          boxShadow: '0 0 12px rgba(200, 132, 90, 0.6)',
-          transform: `translate3d(${position.x - (isHovered ? 12 : isMouseDown ? 4 : 6)}px, ${position.y - (isHovered ? 12 : isMouseDown ? 4 : 6)}px, 0)`,
+          backgroundColor: '#fff',
+          boxShadow: '0 0 10px #fff, 0 0 20px #c8845a, 0 0 30px #c8845a',
+          transform: `translate3d(${pos.x - (isHovered ? 4 : 3)}px, ${pos.y - (isHovered ? 4 : 3)}px, 0)`,
           pointerEvents: 'none',
           zIndex: 100000,
-          transition: 'width 0.15s ease, height 0.15s ease, background-color 0.15s ease, border-color 0.15s ease',
+          transition: 'width 0.15s ease, height 0.15s ease',
           willChange: 'transform',
         }}
       />
