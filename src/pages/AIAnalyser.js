@@ -73,12 +73,12 @@ export default function AIAnalyser() {
         @keyframes spin    { to{transform:rotate(360deg)} }
       `}</style>
 
-      <div style={{ maxWidth:720, margin:'0 auto' }}>
+      <div style={{ maxWidth:780, margin:'0 auto' }}>
 
         {/* ── Header ───────────────────────────────────────────────────── */}
         <div style={{ textAlign:'center', marginBottom:'2.5rem' }}>
           <div style={{ fontSize:'3rem', marginBottom:'0.5rem' }}>🤖</div>
-          <h1 style={{ fontFamily:"'Playfair Display',serif", fontStyle:'italic', color:'#3e2410', fontSize:'2.2rem', margin:0 }}>
+          <h1 style={{ fontFamily:"'Playfair Display',serif", fontStyle:'italic', color:'#3e2410', fontSize:'2.3rem', margin:0 }}>
             AI Review Analyser &amp; Summarizer
           </h1>
           <p style={{ color:'#9e7b60', marginTop:'0.5rem', fontSize:'0.95rem' }}>
@@ -87,51 +87,86 @@ export default function AIAnalyser() {
         </div>
 
         {/* ── Input Form ───────────────────────────────────────────────── */}
-        <div style={{ background:'rgba(255,255,255,0.97)', borderRadius:'20px', padding:'2rem', boxShadow:'0 8px 30px rgba(62,36,16,0.1)', border:'1px solid #e8d5bc', marginBottom:'2rem' }}>
-          <h5 style={{ color:'#3e2410', fontWeight:700, marginBottom:'1.5rem' }}>📝 Enter Guest Review</h5>
+        <div style={{ background:'rgba(255,255,255,0.97)', borderRadius:'24px', padding:'2.2rem', boxShadow:'0 10px 40px rgba(62,36,16,0.1)', border:'1px solid #e8d5bc', marginBottom:'2rem' }}>
+          <h5 style={{ color:'#3e2410', fontWeight:800, marginBottom:'1.5rem', fontFamily:"'Playfair Display',serif" }}>📝 Enter Guest Review</h5>
           <form onSubmit={handleAnalyse}>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 2fr', gap:'1rem', marginBottom:'1rem' }}>
-              <div>
-                <label style={{ color:'#6b4c35', fontWeight:600, fontSize:'0.82rem', display:'block', marginBottom:'0.35rem' }}>Guest Name (optional)</label>
-                <input type="text" placeholder="e.g. Priya Sharma" value={guestName} onChange={e=>setGuestName(e.target.value)}
-                  style={{ width:'100%', padding:'0.65rem 1rem', borderRadius:'10px', border:'1px solid #e8d5bc', background:'#fef9f4', color:'#3e2410', fontSize:'0.9rem', outline:'none', boxSizing:'border-box' }} />
-              </div>
-              <div>
-                <label style={{ color:'#6b4c35', fontWeight:600, fontSize:'0.82rem', display:'block', marginBottom:'0.35rem' }}>
+            
+            {/* Guest Name Field */}
+            <div style={{ marginBottom:'1.2rem' }}>
+              <label style={{ color:'#6b4c35', fontWeight:700, fontSize:'0.85rem', display:'block', marginBottom:'0.4rem' }}>
+                Guest Name (optional)
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Priya Sharma"
+                value={guestName}
+                onChange={e=>setGuestName(e.target.value)}
+                style={{ width:'100%', padding:'0.7rem 1.1rem', borderRadius:'12px', border:'1px solid #e8d5bc', background:'#fef9f4', color:'#3e2410', fontSize:'0.92rem', outline:'none', boxSizing:'border-box' }}
+              />
+            </div>
+
+            {/* Review Text Textarea - Big, Multiline & Prominent */}
+            <div style={{ marginBottom:'1.5rem' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.4rem' }}>
+                <label style={{ color:'#6b4c35', fontWeight:700, fontSize:'0.85rem' }}>
                   Review Text <span style={{ color:'#c62828' }}>*</span>
                 </label>
-                <input type="text" placeholder="Paste or type the guest review here..." value={reviewText} onChange={e=>setReviewText(e.target.value)}
-                  style={{ width:'100%', padding:'0.65rem 1rem', borderRadius:'10px', border:'1px solid #e8d5bc', background:'#fef9f4', color:'#3e2410', fontSize:'0.9rem', outline:'none', boxSizing:'border-box' }} />
+                <span style={{ fontSize:'0.78rem', color:'#9e7b60', fontWeight:600 }}>
+                  {reviewText.length} characters
+                </span>
               </div>
+              <textarea
+                placeholder="Paste or type long guest reviews here... (e.g. detailed experience about room, staff, food, cleanliness, or stay comfort)"
+                value={reviewText}
+                onChange={e=>setReviewText(e.target.value)}
+                rows={5}
+                style={{
+                  width:'100%',
+                  padding:'0.9rem 1.1rem',
+                  borderRadius:'14px',
+                  border:'1.5px solid #e8d5bc',
+                  background:'#fef9f4',
+                  color:'#3e2410',
+                  fontSize:'0.95rem',
+                  lineHeight:1.6,
+                  outline:'none',
+                  boxSizing:'border-box',
+                  minHeight:'140px',
+                  resize:'vertical',
+                  boxShadow:'inset 0 2px 5px rgba(0,0,0,0.03)'
+                }}
+              />
             </div>
 
             {/* Example buttons */}
-            <div style={{ marginBottom:'1.2rem' }}>
-              <span style={{ color:'#9e7b60', fontSize:'0.78rem', fontWeight:600 }}>Try an example: </span>
-              {EXAMPLES.map((ex,i) => (
-                <button key={i} type="button" onClick={()=>{ setReviewText(ex); setResult(null); setError(''); }}
-                  style={{ background:'#f5ede0', border:'1px solid #e8d5bc', borderRadius:'15px', padding:'0.2rem 0.75rem', margin:'0.2rem', fontSize:'0.73rem', color:'#6b3f20', cursor:'pointer', fontWeight:600 }}>
-                  Example {i+1}
-                </button>
-              ))}
+            <div style={{ marginBottom:'1.5rem', background:'#fef9f4', padding:'0.75rem 1rem', borderRadius:'12px', border:'1px solid #e8d5bc' }}>
+              <span style={{ color:'#9e7b60', fontSize:'0.8rem', fontWeight:700, display:'block', marginBottom:'0.35rem' }}>💡 Quick Examples: </span>
+              <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap' }}>
+                {EXAMPLES.map((ex,i) => (
+                  <button key={i} type="button" onClick={()=>{ setReviewText(ex); setResult(null); setError(''); }}
+                    style={{ background:'#f5ede0', border:'1px solid #e8d5bc', borderRadius:'15px', padding:'0.3rem 0.85rem', fontSize:'0.76rem', color:'#6b3f20', cursor:'pointer', fontWeight:600 }}>
+                    Example {i+1} ({ex.slice(0, 30)}...)
+                  </button>
+                ))}
+              </div>
             </div>
 
             {error && (
-              <div style={{ background:'#fce4ec', color:'#c62828', padding:'0.7rem 1rem', borderRadius:'10px', fontSize:'0.85rem', marginBottom:'1rem', display:'flex', alignItems:'center', gap:'0.5rem' }}>
+              <div style={{ background:'#fce4ec', color:'#c62828', padding:'0.75rem 1rem', borderRadius:'12px', fontSize:'0.88rem', marginBottom:'1.2rem', display:'flex', alignItems:'center', gap:'0.5rem', fontWeight:600 }}>
                 ⚠️ {error}
               </div>
             )}
 
             <div style={{ display:'flex', gap:'0.8rem', flexWrap:'wrap' }}>
               <button type="submit" disabled={loading}
-                style={{ background: loading ? '#d7b99a' : 'linear-gradient(135deg,#c8845a,#6b3f20)', color:'#fff', border:'none', padding:'0.75rem 2.2rem', borderRadius:'25px', fontWeight:700, cursor: loading?'not-allowed':'pointer', fontSize:'0.95rem', transition:'all 0.2s', display:'flex', alignItems:'center', gap:'0.6rem' }}>
+                style={{ background: loading ? '#d7b99a' : 'linear-gradient(135deg,#c8845a,#6b3f20)', color:'#fff', border:'none', padding:'0.8rem 2.4rem', borderRadius:'25px', fontWeight:700, cursor: loading?'not-allowed':'pointer', fontSize:'0.95rem', transition:'all 0.2s', display:'flex', alignItems:'center', gap:'0.6rem', boxShadow:'0 4px 15px rgba(107,63,32,0.2)' }}>
                 {loading
                   ? <><span style={{ width:16,height:16,border:'2px solid rgba(255,255,255,0.4)',borderTop:'2px solid #fff',borderRadius:'50%',display:'inline-block',animation:'spin 0.8s linear infinite' }} /> Processing...</>
                   : '🔍 Full AI Analysis & Verdict'}
               </button>
 
               <button type="button" onClick={handleAnalyse} disabled={loading}
-                style={{ background: '#f5ede0', color: '#6b3f20', border: '1px solid #e8d5bc', padding: '0.75rem 1.8rem', borderRadius: '25px', fontWeight: 700, cursor: loading?'not-allowed':'pointer', fontSize: '0.95rem', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                style={{ background: '#f5ede0', color: '#6b3f20', border: '1.5px solid #e8d5bc', padding: '0.8rem 2rem', borderRadius: '25px', fontWeight: 700, cursor: loading?'not-allowed':'pointer', fontSize: '0.95rem', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 ⚡ Summarize Review
               </button>
             </div>
@@ -141,7 +176,7 @@ export default function AIAnalyser() {
         {/* ── Loading ───────────────────────────────────────────────────── */}
         {loading && (
           <div style={{ animation:'fadeIn 0.3s ease' }}>
-            <div style={{ textAlign:'center', padding:'1.5rem', background:'rgba(255,255,255,0.9)', borderRadius:'16px', marginBottom:'1.5rem', border:'1px solid #e8d5bc' }}>
+            <div style={{ textAlign:'center', padding:'1.5rem', background:'rgba(255,255,255,0.95)', borderRadius:'16px', marginBottom:'1.5rem', border:'1px solid #e8d5bc' }}>
               <div style={{ fontSize:'2rem', marginBottom:'0.5rem', animation:'pulse 1.2s infinite' }}>🤖</div>
               <p style={{ color:'#6b4c35', margin:0, fontWeight:600 }}>AI is summarizing and analyzing the review...</p>
             </div>
@@ -155,7 +190,7 @@ export default function AIAnalyser() {
 
             {/* AI Executive Summary Card */}
             {combined.summary && (
-              <div style={{ background:'linear-gradient(135deg,#fff8e1,#fef9f4)', border:'2px solid #ffa726', borderRadius:'18px', padding:'1.3rem 1.6rem', marginBottom:'1.5rem', boxShadow:'0 6px 20px rgba(255,167,38,0.15)' }}>
+              <div style={{ background:'linear-gradient(135deg,#fff8e1,#fef9f4)', border:'2px solid #ffa726', borderRadius:'18px', padding:'1.4rem 1.7rem', marginBottom:'1.5rem', boxShadow:'0 6px 25px rgba(255,167,38,0.18)' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'0.6rem', marginBottom:'0.4rem' }}>
                   <span style={{ fontSize:'1.4rem' }}>📌</span>
                   <h6 style={{ color:'#b26a00', fontWeight:800, margin:0, textTransform:'uppercase', letterSpacing:'0.5px', fontSize:'0.85rem' }}>
