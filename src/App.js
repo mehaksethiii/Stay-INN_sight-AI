@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ErrorBoundary from './components/ErrorBoundary';
+import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -27,45 +29,48 @@ function App() {
   };
 
   return (
-    <div className={darkMode ? 'dark-mode' : 'light-mode'}>
-      <AuthProvider>
-        <BrowserRouter>
-          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/ai-analyser"
-              element={
-                <ProtectedRoute>
-                  <AIAnalyser />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-          <Footer />
-          {/* Floating AI Chatbot — visible on all pages when authenticated */}
-          <FloatingChatbot />
-        </BrowserRouter>
-      </AuthProvider>
-    </div>
+    <ErrorBoundary>
+      <div className={darkMode ? 'dark-mode' : 'light-mode'}>
+        <CustomCursor />
+        <AuthProvider>
+          <BrowserRouter>
+            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/ai-analyser"
+                element={
+                  <ProtectedRoute>
+                    <AIAnalyser />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+            <Footer />
+            {/* Floating AI Chatbot — visible on all pages when authenticated */}
+            <FloatingChatbot />
+          </BrowserRouter>
+        </AuthProvider>
+      </div>
+    </ErrorBoundary>
   );
 }
 
