@@ -19,6 +19,8 @@
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   margin: 0;
+  background: linear-gradient(160deg, #fef9f4 0%, #f5ede0 100%);
+  min-height: 100vh;
 }
 
 /* ===== ANIMATIONS & KEYFRAMES ===== */
@@ -90,13 +92,13 @@ button:active, .btn:active {
 
 /* ===== THEME WRAPPER ===== */
 .light-mode {
-  background-color: var(--beige-light);
+  background: linear-gradient(160deg, #fef9f4 0%, #f5ede0 100%) !important;
   color: var(--text-dark);
   min-height: 100vh;
 }
 
 .dark-mode {
-  background-color: #1c0f08;
+  background: linear-gradient(160deg, #1c0f08 0%, #0d0603 100%) !important;
   color: #f0e6d8;
   min-height: 100vh;
 }
@@ -268,7 +270,8 @@ button:active, .btn:active {
 
 /* ===== STATS BAR ===== */
 .stats-bar {
-  background: var(--cream);
+  background: rgba(254, 249, 244, 0.7);
+  backdrop-filter: blur(10px);
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(62,36,16,0.08);
   border-bottom: 1px solid var(--beige-mid);
