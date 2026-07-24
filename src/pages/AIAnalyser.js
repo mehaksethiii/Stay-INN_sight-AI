@@ -36,7 +36,7 @@ export default function AIAnalyser() {
   const [copied,     setCopied]     = useState(false);
 
   const handleAnalyse = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (reviewText.trim().length < 10) { setError('Please enter at least 10 characters.'); return; }
     setLoading(true); setError(''); setResult(null);
     try {
@@ -79,10 +79,10 @@ export default function AIAnalyser() {
         <div style={{ textAlign:'center', marginBottom:'2.5rem' }}>
           <div style={{ fontSize:'3rem', marginBottom:'0.5rem' }}>🤖</div>
           <h1 style={{ fontFamily:"'Playfair Display',serif", fontStyle:'italic', color:'#3e2410', fontSize:'2.2rem', margin:0 }}>
-            AI Review Analyser
+            AI Review Analyser &amp; Summarizer
           </h1>
           <p style={{ color:'#9e7b60', marginTop:'0.5rem', fontSize:'0.95rem' }}>
-            Powered by Groq · LLaMA 3.1 — instant analysis &amp; professional response generation
+            Powered by Groq · LLaMA 3.1 — instant 1-sentence summaries, sentiment classification &amp; management responses
           </p>
         </div>
 
@@ -122,12 +122,19 @@ export default function AIAnalyser() {
               </div>
             )}
 
-            <button type="submit" disabled={loading}
-              style={{ background: loading ? '#d7b99a' : 'linear-gradient(135deg,#c8845a,#6b3f20)', color:'#fff', border:'none', padding:'0.75rem 2.5rem', borderRadius:'25px', fontWeight:700, cursor: loading?'not-allowed':'pointer', fontSize:'0.95rem', transition:'all 0.2s', display:'flex', alignItems:'center', gap:'0.6rem' }}>
-              {loading
-                ? <><span style={{ width:16,height:16,border:'2px solid rgba(255,255,255,0.4)',borderTop:'2px solid #fff',borderRadius:'50%',display:'inline-block',animation:'spin 0.8s linear infinite' }} /> Analysing...</>
-                : '🔍 Analyse Review'}
-            </button>
+            <div style={{ display:'flex', gap:'0.8rem', flexWrap:'wrap' }}>
+              <button type="submit" disabled={loading}
+                style={{ background: loading ? '#d7b99a' : 'linear-gradient(135deg,#c8845a,#6b3f20)', color:'#fff', border:'none', padding:'0.75rem 2.2rem', borderRadius:'25px', fontWeight:700, cursor: loading?'not-allowed':'pointer', fontSize:'0.95rem', transition:'all 0.2s', display:'flex', alignItems:'center', gap:'0.6rem' }}>
+                {loading
+                  ? <><span style={{ width:16,height:16,border:'2px solid rgba(255,255,255,0.4)',borderTop:'2px solid #fff',borderRadius:'50%',display:'inline-block',animation:'spin 0.8s linear infinite' }} /> Processing...</>
+                  : '🔍 Full AI Analysis & Verdict'}
+              </button>
+
+              <button type="button" onClick={handleAnalyse} disabled={loading}
+                style={{ background: '#f5ede0', color: '#6b3f20', border: '1px solid #e8d5bc', padding: '0.75rem 1.8rem', borderRadius: '25px', fontWeight: 700, cursor: loading?'not-allowed':'pointer', fontSize: '0.95rem', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                ⚡ Summarize Review
+              </button>
+            </div>
           </form>
         </div>
 
@@ -136,15 +143,30 @@ export default function AIAnalyser() {
           <div style={{ animation:'fadeIn 0.3s ease' }}>
             <div style={{ textAlign:'center', padding:'1.5rem', background:'rgba(255,255,255,0.9)', borderRadius:'16px', marginBottom:'1.5rem', border:'1px solid #e8d5bc' }}>
               <div style={{ fontSize:'2rem', marginBottom:'0.5rem', animation:'pulse 1.2s infinite' }}>🤖</div>
-              <p style={{ color:'#6b4c35', margin:0, fontWeight:600 }}>AI is analysing the review...</p>
+              <p style={{ color:'#6b4c35', margin:0, fontWeight:600 }}>AI is summarizing and analyzing the review...</p>
             </div>
             <Skeleton />
           </div>
         )}
 
-        {/* ── Result: Final AI Verdict Only ─────────────────────────────── */}
+        {/* ── Result: Final AI Verdict & Summary ─────────────────────────── */}
         {combined && !loading && (
           <div style={{ animation:'fadeIn 0.5s ease' }}>
+
+            {/* AI Executive Summary Card */}
+            {combined.summary && (
+              <div style={{ background:'linear-gradient(135deg,#fff8e1,#fef9f4)', border:'2px solid #ffa726', borderRadius:'18px', padding:'1.3rem 1.6rem', marginBottom:'1.5rem', boxShadow:'0 6px 20px rgba(255,167,38,0.15)' }}>
+                <div style={{ display:'flex', alignItems:'center', gap:'0.6rem', marginBottom:'0.4rem' }}>
+                  <span style={{ fontSize:'1.4rem' }}>📌</span>
+                  <h6 style={{ color:'#b26a00', fontWeight:800, margin:0, textTransform:'uppercase', letterSpacing:'0.5px', fontSize:'0.85rem' }}>
+                    Executive Review Summary
+                  </h6>
+                </div>
+                <p style={{ fontSize:'1.05rem', color:'#3e2410', fontWeight:700, margin:0, lineHeight:1.6 }}>
+                  "{combined.summary}"
+                </p>
+              </div>
+            )}
 
             {/* Sentiment Banner */}
             <div style={{ background:sc.bg, border:`2px solid ${sc.border}`, borderRadius:'16px', padding:'1.2rem 1.5rem', marginBottom:'1.5rem', display:'flex', alignItems:'center', gap:'1rem', flexWrap:'wrap' }}>

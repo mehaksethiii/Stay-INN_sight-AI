@@ -1,7 +1,7 @@
 /**
  * analysis.service.js
  * Dual AI Analysis — runs Groq + HuggingFace IN PARALLEL
- * Combines both results into a final intelligent verdict
+ * Combines both results into a final intelligent verdict with summary
  */
 
 const { callGroq } = require('./groq.service');
@@ -12,7 +12,7 @@ const EMOTION_EMOJI = { joy:'😊', anger:'😠', sadness:'😢', fear:'😨', d
 // ─── Groq deep analysis ────────────────────────────────────────────────────────
 async function runGroqAnalysis(reviewText, guestName) {
   const prompt = `You are an expert analytics assistant specializing in hotel review analysis.
-Analyze the given hotel review. Detect trends, identify issues, and give business insights.
+Analyze the given hotel review. Detect trends, identify issues, summarize key points, and give business insights.
 Return ONLY valid JSON — no markdown, no code fences, no explanation.
 
 Review: "${reviewText}"
@@ -20,6 +20,7 @@ Guest: "${guestName}"
 
 JSON structure (ALL fields required):
 {
+  "summary": "Clear 1-sentence executive summary of the guest review in 15 words or less",
   "sentiment": "positive" | "negative" | "neutral",
   "sentimentConfidence": 60-99,
   "emotion": "joy" | "anger" | "sadness" | "fear" | "disgust" | "surprise" | "neutral",
@@ -33,7 +34,7 @@ JSON structure (ALL fields required):
 
   const raw = await callGroq(
     [{ role: 'user', content: prompt }],
-    { model: 'llama-3.1-8b-instant', temperature: 0.3, max_tokens: 600 }
+    { model: 'llama-3.1-8b-instant', temperature: 0.3, max_tokens: 650 }
   );
   const clean = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
   return JSON.parse(clean);
@@ -105,6 +106,7 @@ async function runDualAnalysis(reviewText, guestName) {
   if (groqResult.status === 'fulfilled') {
     const g = groqResult.value;
     groq = {
+      summary: g.summary || `Guest review highlights ${themes.join(', ')} experience.`,
       sentiment: { label: g.sentiment || 'neutral', confidence: g.sentimentConfidence || 82 },
       emotion:   { label: g.emotion   || 'neutral', confidence: g.emotionConfidence   || 78 },
       detectedThemes: g.detectedThemes?.length ? g.detectedThemes : themes,
@@ -140,14 +142,13 @@ async function runDualAnalysis(reviewText, guestName) {
   const groqSentiment = groq?.status === 'success' ? groq.sentiment.label : null;
   const hfSentiment   = hf?.status   === 'success' ? hf.sentiment.label   : null;
 
-  // Verdict: if both agree → high confidence; if disagree → take Groq's (better context) but note disagreement
   let verdictSentiment = groqSentiment || hfSentiment || 'neutral';
   let verdictConfidence = 90;
   let agreement = true;
   if (groqSentiment && hfSentiment && groqSentiment !== hfSentiment) {
     agreement = false;
-    verdictSentiment = groqSentiment; // Groq has more context
-    verdictConfidence = 72; // Lower confidence when models disagree
+    verdictSentiment = groqSentiment;
+    verdictConfidence = 72;
   }
 
   const verdictEmotion = groq?.status === 'success' ? groq.emotion.label : (hf?.status === 'success' ? hf.emotion.label : 'neutral');
@@ -155,7 +156,10 @@ async function runDualAnalysis(reviewText, guestName) {
     ? groq.managementResponse
     : buildTemplateResponse(name, verdictSentiment, verdictEmotion);
 
+  const defaultSummary = reviewText.length > 80 ? `${reviewText.slice(0, 80)}...` : reviewText;
+
   const combined = {
+    summary: groq?.summary || `Executive Summary: Guest feedback regarding ${themes.join(', ')}.`,
     sentiment: { label: verdictSentiment, confidence: verdictConfidence },
     emotion:   { label: verdictEmotion,   confidence: groq?.status === 'success' ? groq.emotion.confidence : (hf?.emotion?.confidence || 75) },
     modelsAgree: agreement,
