@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: stay-inn-sight-ai-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MONGO_URL
+        sync: false        # Set manually in Render dashboard
+      - key: JWT_SECRET
+        sync: false        # Set manually in Render dashboard
+      - key: FIREBASE_PROJECT_ID
+        sync: false        # Set manually in Render dashboard
+      - key: HF_API_KEY
+        sync: false        # Set manually in Render dashboard
+      - key: GROQ_API_KEY
+        sync: false        # Set manually in Render dashboard
+      - key: FRONTEND_URL
+        sync: false        # Set to your Vercel URL, e.g. https://stay-inn-sight-ai-f3ov.vercel.app

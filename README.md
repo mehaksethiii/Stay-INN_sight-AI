@@ -1,6 +1,6 @@
 # INN Sight AI — Hotel Review Intelligence Platform
 
-> **Intern ID**: TBI-26101076 | **Week 7 — AI API Integration**
+> **Intern ID**: TBI-26101076 | **Week 9 — App Deployment & Go-Live**
 
 A full-stack AI-powered hotel review management platform built with React, Node.js, Express, and MongoDB. Features real-time AI sentiment analysis, dual-engine review intelligence, and a domain-specific AI chatbot.
 
@@ -141,9 +141,29 @@ GROQ_API_KEY=your_groq_key
 
 ## 🌐 Live Deployment
 
-- **Frontend**: [Vercel](https://stay-inn-sight-ai-f3ov.vercel.app)
-- **Backend**: Render (auto-deploys from GitHub)
-- **Database**: MongoDB Atlas
+| Layer | Platform | URL |
+|-------|----------|-----|
+| Frontend | Vercel | [stay-inn-sight-ai-f3ov.vercel.app](https://stay-inn-sight-ai-f3ov.vercel.app) |
+| Backend API | Render | [stay-inn-sight-ai.onrender.com](https://stay-inn-sight-ai.onrender.com) |
+| Database | MongoDB Atlas | Hosted cluster (not public) |
+
+### Tech Stack Summary
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 19, React Router v7, Bootstrap 5, Firebase Auth |
+| Backend | Node.js, Express 5, Mongoose |
+| Database | MongoDB Atlas |
+| AI Engine | Groq LLaMA 3.1 → HuggingFace RoBERTa → Local NLP (fallback chain) |
+| Auth | JWT + Firebase Google OAuth |
+| Deployment | Vercel (frontend) + Render (backend) |
+
+### ⚠️ Known Limitations on Free Tier
+
+- **Render free tier** has a self-ping keep-alive built in (pings `/api/health` every 14 minutes), so the server stays warm. No cold-start delays.
+- **Groq free tier** has a rate limit of 30 requests/minute. Hitting the limit falls back automatically to HuggingFace, then local NLP.
+- **HuggingFace Inference API** free tier may queue requests during high traffic; the local NLP fallback ensures sentiment analysis always works.
+- **MongoDB Atlas free cluster (M0)** has 512 MB storage and 100 max connections — sufficient for this project at current scale.
 
 ---
 

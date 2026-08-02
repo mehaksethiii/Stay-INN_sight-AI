@@ -8,7 +8,21 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:3001', 'https://stay-inn-sight-ai-f3ov.vercel.app'] }));
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  process.env.FRONTEND_URL, // Production Vercel URL — set on Render dashboard
+].filter(Boolean); // removes undefined if FRONTEND_URL is not set
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 // ===== CONNECT TO MONGODB =====
@@ -166,6 +180,11 @@ app.delete('/api/reviews/:id', requireAuth, async (req, res) => {
   }
 });
 
+// ===== HEALTH CHECK (used by keep-alive ping) =====
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // ===== ERROR HANDLING =====
 app.use((err, req, res, next) => {
   console.error('Error occurred:', err);
@@ -176,4 +195,30 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+
+  // ===== KEEP-ALIVE SELF-PING (prevents Render free tier sleep) =====
+  // Render spins down services after 15 min of inactivity on the free tier.
+  // This pings the backend's own /api/health endpoint every 14 minutes
+  // so it never goes idle. Only runs in production.
+  if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
+    const BACKEND_URL = process.env.RENDER_EXTERNAL_URL || `https://stay-inn-sight-ai.onrender.com`;
+    const PING_INTERVAL_MS = 14 * 60 * 1000; // 14 minutes
+
+    setInterval(async () => {
+      try {
+        const https = require('https');
+        https.get(`${BACKEND_URL}/api/health`, (res) => {
+          console.log(`[keep-alive] ping → ${res.statusCode}`);
+        }).on('error', (err) => {
+          console.warn(`[keep-alive] ping failed: ${err.message}`);
+        });
+      } catch (e) {
+        console.warn('[keep-alive] error:', e.message);
+      }
+    }, PING_INTERVAL_MS);
+
+    console.log(`[keep-alive] Self-ping active every 14 min → ${BACKEND_URL}/api/health`);
+  }
+});
