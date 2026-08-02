@@ -11,8 +11,9 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  process.env.FRONTEND_URL, // Production Vercel URL — set on Render dashboard
-].filter(Boolean); // removes undefined if FRONTEND_URL is not set
+  'https://stay-inn-sight-ai-f3ov.vercel.app', // hardcoded fallback — always allowed
+  process.env.FRONTEND_URL,                     // override via Render dashboard if URL changes
+].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
