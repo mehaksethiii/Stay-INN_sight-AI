@@ -35,7 +35,7 @@ async function classifySentimentAI(text) {
     const response = await callGroq([
       {
         role: 'system',
-        content: 'You are an expert sentiment analysis model. Return ONLY one word. Positive, Negative, or Neutral. No explanation. No punctuation.',
+        content: 'You are a hotel review sentiment classifier. Classify the sentiment as exactly one word: Positive, Negative, or Neutral. Use Neutral when the review contains BOTH positive and negative aspects. Use Positive only when overall experience is good. Use Negative only when the overall experience is bad. No explanation. No punctuation.',
       },
       {
         role: 'user',

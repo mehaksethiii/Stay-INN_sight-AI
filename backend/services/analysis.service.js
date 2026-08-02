@@ -15,6 +15,11 @@ async function runGroqAnalysis(reviewText, guestName) {
 Analyze the given hotel review. Detect trends, identify issues, summarize key points, and give business insights.
 Return ONLY valid JSON — no markdown, no code fences, no explanation.
 
+Sentiment rules:
+- "positive": overall experience was good/great, minor issues are acceptable
+- "negative": overall experience was bad, guest is unhappy or wants refund
+- "neutral": review contains BOTH clear positives AND clear negatives (mixed review)
+
 Review: "${reviewText}"
 Guest: "${guestName}"
 
