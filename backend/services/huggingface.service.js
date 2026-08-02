@@ -26,7 +26,7 @@ function callHFModel(model, inputs) {
         path: `/models/${model}`,
         method: 'POST',
         family: 4,
-        timeout: 25000,
+        timeout: 5000, // fail fast on Render free tier — DNS often unavailable
         headers: {
           Authorization: `Bearer ${HF_API_KEY}`,
           'Content-Type': 'application/json',

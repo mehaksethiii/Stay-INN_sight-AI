@@ -53,13 +53,8 @@ async function classifySentimentAI(text) {
     console.warn('Sentiment Groq failed:', err.message);
   }
 
-  // Layer 2: HuggingFace
-  try {
-    const hf = await callHFSentiment(text);
-    return { sentiment: hf.label, confidence: hf.confidence, engine: 'huggingface' };
-  } catch (err) {
-    console.warn('Sentiment HF failed:', err.message);
-  }
+  // Layer 2: HuggingFace — skip on Render (DNS not available on free tier)
+  // Falls through directly to local NLP
 
   // Layer 3: Local NLP
   return localSentiment(text);

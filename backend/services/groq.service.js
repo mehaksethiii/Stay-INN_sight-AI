@@ -6,7 +6,7 @@
 
 const https = require('https');
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY?.trim();
 
 /**
  * Send a chat request to Groq LLaMA
