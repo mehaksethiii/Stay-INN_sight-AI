@@ -1,5 +1,17 @@
 # INN Sight AI — Hotel Review Intelligence Platform
 
+Deployed Link = https://stay-inn-sight-ai-f3ov.vercel.app/
+
+<img width="939" height="489" alt="Screenshot 2026-08-08 101510" src="https://github.com/user-attachments/assets/47e4eedd-d2bc-4689-8acc-0b65b7818f06" />
+
+<img width="941" height="482" alt="Screenshot 2026-08-08 101620" src="https://github.com/user-attachments/assets/b4332046-fefa-495d-8a9e-a91b8bdbf074" />
+
+<img width="643" height="499" alt="Screenshot 2026-08-08 102123" src="https://github.com/user-attachments/assets/fe1401f8-7941-4372-82fc-2a86e51da010" />
+
+<img width="934" height="503" alt="Screenshot 2026-08-08 102145" src="https://github.com/user-attachments/assets/429ec587-9efd-4f9b-a9dd-c88b1d8bfdb8" />
+
+
+
 > **Intern ID**: TBI-26101076 | **Week 9 — App Deployment & Go-Live**
 
 A full-stack AI-powered hotel review management platform built with React, Node.js, Express, and MongoDB. Features real-time AI sentiment analysis, dual-engine review intelligence, and a domain-specific AI chatbot.
