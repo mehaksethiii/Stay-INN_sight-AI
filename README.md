@@ -16,13 +16,29 @@
 
 ---
 
-## 📸 2. Application Screenshots
+## 📸 2. Application Screenshots & Visual Showcase
 
-| Home Page & Hero Showcase | AI Review Analyser & Summarizer |
+<p align="center">
+  <img src="public/home_page.png" alt="Home Page & Hero Showcase" width="100%" />
+</p>
+
+<p align="center">
+  <b>🌟 Landing Page & Hero Review Intelligence Showcase</b>
+</p>
+
+<br />
+
+| 🏨 AI Review Analyser & Summarizer | 🛏️ Guest Room Experience |
 | :---: | :---: |
-| ![Home Page](public/home_page.png) | ![AI Analyser](public/hotel.png) |
-| **Interactive 3D Experience Cards** | **Live Review Intelligence & Management** |
-| ![Guest Experience](public/guestexperience.png) | ![Dining Review](public/diningreview.png) |
+| <img src="public/hotel.png" alt="AI Review Analyser" width="100%" /> | <img src="public/hotel_room.png" alt="Hotel Room Experience" width="100%" /> |
+| **✨ Instant Sentiment & Executive Summaries** | **🌿 Homestay & Hotel Comfort** |
+
+<br />
+
+| 💬 Guest Experience Review Analysis | 🍽️ Dining & Hospitality Intelligence |
+| :---: | :---: |
+| <img src="public/guestexperience.png" alt="Guest Experience Review Analysis" width="100%" /> | <img src="public/diningreview.png" alt="Dining & Hospitality Intelligence" width="100%" /> |
+| **🏷️ Real-Time Theme & Issue Detection** | **📈 Actionable Recommendations & Responses** |
 
 ---
 
@@ -246,14 +262,13 @@ todos-list/
 │   ├── server.js               # Express entrypoint & keep-alive monitor
 │   ├── generate-pdf.js         # Automated PDF report generator
 │   ├── generate-w8-pdf.js      # Week 8 verification PDF builder
-│   ├── generate-w10-pdf.js     # Week 10 Capstone Portfolio PDF builder
 │   └── package.json
 ├── public/
-│   ├── diningreview.png
-│   ├── guestexperience.png
-│   ├── home_page.png
-│   ├── hotel.png
-│   └── hotel_room.png
+│   ├── diningreview.png        # Dining review showcase
+│   ├── guestexperience.png     # Guest experience showcase
+│   ├── home_page.png           # Hero showcase screenshot
+│   ├── hotel.png               # Hotel review analyser showcase
+│   └── hotel_room.png          # Hotel room showcase
 ├── src/
 │   ├── components/
 │   │   ├── Card.js             # 3D Tilt micro-interaction review card
