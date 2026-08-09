@@ -20,9 +20,9 @@ During the 10-week TBI-GEU Internship, **INN Sight AI** was designed, built, and
 
 | Deliverable | Requirement | Verification Status |
 | :--- | :--- | :---: |
-| **Deliverable 1** | Comprehensive `README.md` at root in exact required order with working links, tech stack, API docs, and architecture | ✅ **100% COMPLETE** |
-| **Deliverable 2** | 5-Minute Demo Video Guide & Script (`DEMO_VIDEO_SCRIPT.md`) with word-for-word talking points | ✅ **100% COMPLETE** |
-| **Deliverable 3** | All 3 Core URLs verified (Live App URL, GitHub Repo URL, YouTube Unlisted Demo Link placeholder) | ✅ **100% COMPLETE** |
+| **Deliverable 1** | Comprehensive `README.md` at root in exact required order with live links, tech stack, API docs, and architecture | ✅ **100% COMPLETE** |
+| **Deliverable 2** | Live Production Deployment (Vercel Frontend + Render Backend + MongoDB Atlas Cloud Database) | ✅ **100% COMPLETE** |
+| **Deliverable 3** | Dual AI Review Intelligence with Executive Summarizer & Domain Chatbot | ✅ **100% COMPLETE** |
 | **Deliverable 4** | Capstone Portfolio PDF (`W10_Capstone_Portfolio_TBI-26101076.pdf`) & Progress Report | ✅ **100% COMPLETE** |
 | **Deliverable 5** | Clean repository with zero secrets committed, `.env.example` template, and clean Git history | ✅ **100% COMPLETE** |
 
@@ -47,7 +47,7 @@ During the 10-week TBI-GEU Internship, **INN Sight AI** was designed, built, and
 4. **Weeks 9–10: Production Cloud Deployment & Capstone Portfolio**:
    - Automated CI/CD deployment on **Vercel** for React frontend and **Render** for Express API.
    - Added active self-ping keep-alive service (`/api/health`) to eliminate cold-start latency.
-   - Generated official Capstone Documentation, demo script, and final package.
+   - Generated official Capstone Documentation and final submission package.
 
 ---
 
@@ -63,5 +63,4 @@ During the 10-week TBI-GEU Internship, **INN Sight AI** was designed, built, and
 - **Contents**:
   - `W10_Capstone_Portfolio_TBI-26101076.pdf`
   - `W10_Capstone_Portfolio_TBI-26101076.md`
-  - `DEMO_VIDEO_SCRIPT.md`
   - `README.md`

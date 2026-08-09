@@ -9,20 +9,14 @@
 
 ---
 
-## 🌐 1. Live Demo
-- **Frontend URL**: [https://stay-inn-sight-ai-f3ov.vercel.app](https://stay-inn-sight-ai-f3ov.vercel.app)
+## 🌐 1. Live Deployment & Links
+- **Frontend Live URL**: [https://stay-inn-sight-ai-f3ov.vercel.app](https://stay-inn-sight-ai-f3ov.vercel.app)
 - **Backend API URL**: [https://stay-inn-sight-ai.onrender.com](https://stay-inn-sight-ai.onrender.com)
 - **Database**: MongoDB Atlas Cloud Cluster
 
 ---
 
-## 🎥 2. Demo Video
-- **YouTube (Unlisted)**: [Watch 5-Minute Project Walkthrough](https://youtube.com/watch?v=YOUR_VIDEO_ID_HERE) *(Paste your unlisted link here)*
-- **Demo Highlights**: Problem statement → Authentication & Dashboard CRUD → Dual AI Review Analyser & Summarizer → Domain AI Chatbot → Code & Architecture walkthrough.
-
----
-
-## 📸 3. Screenshots
+## 📸 2. Application Screenshots
 
 | Home Page & Hero Showcase | AI Review Analyser & Summarizer |
 | :---: | :---: |
@@ -32,7 +26,7 @@
 
 ---
 
-## ✨ 4. Key Features
+## ✨ 3. Key Features
 
 - 🤖 **Dual-Model AI Review Intelligence**: Uses **Groq LLaMA 3.1** alongside **HuggingFace RoBERTa** in parallel to classify sentiment, compute confidence levels, and analyze guest emotion.
 - ⚡ **Instant Executive Review Summaries**: Automatically condenses long, multi-paragraph reviews into crisp 1-sentence summaries for busy property managers.
@@ -47,7 +41,7 @@
 
 ---
 
-## 🛠️ 5. Tech Stack
+## 🛠️ 4. Tech Stack
 
 | Layer | Technologies Used |
 | :--- | :--- |
@@ -60,7 +54,7 @@
 
 ---
 
-## 💻 6. Setup & Installation Instructions
+## 💻 5. Setup & Installation Instructions
 
 Follow these step-by-step instructions to run INN Sight AI locally from scratch.
 
@@ -109,7 +103,7 @@ npm start
 
 ---
 
-## 🔌 7. API Documentation
+## 🔌 6. API Documentation
 
 ### Authentication Endpoints
 
@@ -200,7 +194,7 @@ Domain AI Chatbot assistant endpoint for hotel management inquiries.
 
 ---
 
-## 🏗️ 8. Architecture & Folder Structure
+## 🏗️ 7. Architecture & Folder Structure
 
 ### Multi-Tier AI Fallback Engine
 ```
@@ -283,14 +277,13 @@ todos-list/
 │   ├── App.css                 # Global stylesheet & design tokens
 │   └── index.js
 ├── README.md                   # Production project documentation
-├── DEMO_VIDEO_SCRIPT.md        # 5-minute video recording script & walkthrough
 ├── W10_Capstone_Portfolio_TBI-26101076.md # Week 10 Portfolio report
 └── package.json
 ```
 
 ---
 
-## ⚠️ 9. Known Limitations & Roadmap
+## ⚠️ 8. Known Limitations & Roadmap
 
 - **Render Free Tier Spin-Down**: Render web services spin down after 15 minutes of inactivity. A self-ping keep-alive script is included in `server.js` (`/api/health`), but cold starts may take ~30 seconds if dormant.
 - **Groq Free Tier Rate Limits**: The free tier supports up to 30 requests/minute. The backend automatically cascades to HuggingFace and local NLP if the rate limit is exceeded.
@@ -302,7 +295,7 @@ todos-list/
 
 ---
 
-## 🤝 10. Credits & Acknowledgements
+## 🤝 9. Credits & Acknowledgements
 
 - **TBI-GEU Internship Program**: Graphic Era University Technology Business Incubator for project guidance and curriculum.
 - **Trishul Eco-Homestays**: Domain inspiration for homestay operational intelligence and guest experience enhancement.
