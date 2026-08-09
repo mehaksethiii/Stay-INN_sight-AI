@@ -19,7 +19,8 @@
 ## 📸 2. Application Screenshots & Visual Showcase
 
 <p align="center">
-  <img src="public/home_page.png" alt="Home Page & Hero Showcase" width="100%" />
+ <img width="937" height="484" alt="Screenshot 2026-08-09 205306" src="https://github.com/user-attachments/assets/c7114517-c378-47f6-a91a-160c08fbdfdc" />
+
 </p>
 
 <p align="center">
