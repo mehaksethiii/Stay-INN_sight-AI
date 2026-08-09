@@ -252,7 +252,6 @@ todos-list/
 │   ├── server.js               # Express entrypoint & keep-alive monitor
 │   ├── generate-pdf.js         # Automated PDF report generator
 │   ├── generate-w8-pdf.js      # Week 8 verification PDF builder
-│   ├── generate-w10-pdf.js     # Week 10 Capstone Portfolio PDF builder
 │   └── package.json
 ├── public/
 │   ├── diningreview.png
@@ -283,8 +282,6 @@ todos-list/
 │   ├── App.css                 # Global stylesheet & design tokens
 │   └── index.js
 ├── README.md                   # Production project documentation
-├── DEMO_VIDEO_SCRIPT.md        # 5-minute video recording script & walkthrough
-├── W10_Capstone_Portfolio_TBI-26101076.md # Week 10 Portfolio report
 └── package.json
 ```
 
